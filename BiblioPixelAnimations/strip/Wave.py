@@ -4,10 +4,12 @@ import math
 class Wave(BaseStripAnim):
     """Sine wave animation."""
 
-    def __init__(self, led, color, cycles, start=0, end=-1):
+    def __init__(self, led, color, cycles, start=0, end=-1, peaks = 0, troughs = 0):
         super(Wave, self).__init__(led, start, end)
         self._color = color
         self._cycles = cycles
+        self._peaks = peaks
+        self.troughs = troughs
 
     def step(self, amt = 1):
         for i in range(self._size):
@@ -21,7 +23,10 @@ class Wave(BaseStripAnim):
                 # Peaks of sine wave are white
                 y = 1.0 - y  # Translate Y to 0.0 (top) to 1.0 (center)
                 r, g, b = self._color
-                c2 = (int(255 - float(255 - r) * y), int(255 - float(255 - g) * y), int(255 - float(255 - b) * y))
+                if not self._peaks == 0:
+                    c2 = self._peaks
+                else:
+                    c2 = (int(100 - float(100 - r) * y), int(100 - float(100 - g) * y), int(100 - float(100 - b) * y))
             else:
                 # Troughs of sine wave are black
                 y += 1.0  # Translate Y to 0.0 (bottom) to 1.0 (center)
@@ -36,11 +41,13 @@ class Wave(BaseStripAnim):
 class WaveMove(BaseStripAnim):
     """Sine wave animation."""
 
-    def __init__(self, led, color, cycles, start=0, end=-1):
+    def __init__(self, led, color, cycles, start=0, end=-1, peaks = 0, troughs = 0):
         super(WaveMove, self).__init__(led, start, end)
         self._color = color
         self._cycles = cycles
         self._moveStep = 0
+        self._peaks = peaks
+        self._troughs = troughs
 
     def step(self, amt = 1):
         for i in range(self._size):
@@ -55,7 +62,10 @@ class WaveMove(BaseStripAnim):
                 # Peaks of sine wave are white
                 y = 1.0 - y  # Translate Y to 0.0 (top) to 1.0 (center)
                 r, g, b = self._color
-                c2 = (int(255 - float(255 - r) * y), int(255 - float(255 - g) * y), int(255 - float(255 - b) * y))
+                if not self._peaks == 0:
+                    c2 = self._peaks
+                else:
+                    c2 = (int(255 - float(255 - r) * y), int(255 - float(255 - g) * y), int(255 - float(255 - b) * y))
             else:
                 # Troughs of sine wave are black
                 y += 1.0  # Translate Y to 0.0 (bottom) to 1.0 (center)
